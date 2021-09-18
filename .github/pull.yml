@@ -1,0 +1,21 @@
+# cspell:words kkeisuke
+# cspell:enableCompoundWords
+#
+# Information:    https://wei.github.io/pull/#advanced-setup-with-config
+# Manual trigger: https://pull.git.ci/process/HeinrichAD/plantuml-editor
+#
+version: "1"
+rules:
+  - base: master
+    upstream: kkeisuke:master
+    mergeMethod: hardreset
+  - base: develop
+    upstream: master
+    mergeMethod: rebase
+    assignees:
+      - HeinrichAD
+    reviewers:
+      - HeinrichAD
+    conflictReviewers:
+      - HeinrichAD
+label: ":arrow_heading_down: pull"
