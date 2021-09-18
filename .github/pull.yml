@@ -8,7 +8,7 @@ version: "1"
 rules:
   - base: master
     upstream: kkeisuke:master
-    mergeMethod: hardreset
+    mergeMethod: rebase
   - base: develop
     upstream: master
     mergeMethod: rebase

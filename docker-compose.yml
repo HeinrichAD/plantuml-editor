@@ -1,0 +1,17 @@
+version: '3'
+services:
+  plantuml-editor:
+    #image: heinrichad/plantuml-editor:master
+    image: heinrichad/plantuml-editor:develop
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    restart: always
+    container_name: plantuml-editor
+    environment:
+      - VUE_APP_URL=http://localhost:8080
+      - VUE_APP_SERVER=http://localhost:4000/
+      - VUE_APP_CDN=http://localhost:4000/
+      #- TZ=...
+    ports:
+      - 8080:80
