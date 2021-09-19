@@ -8,10 +8,8 @@ COPY . /usr/app
 
 WORKDIR /usr/app
 
-# NOTE: tailing "/" is important! (At least for VUE_APP_CDN.)
-ENV VUE_APP_URL=https://plantuml-editor.kkeisuke.com/
-ENV VUE_APP_SERVER=https://plantuml-server.kkeisuke.dev/
-ENV VUE_APP_CDN=https://plantuml-server.kkeisuke.dev/
+ENV VUE_APP_URL=https://plantuml-editor.kkeisuke.com
+ENV VUE_APP_CDN=https://plantuml-server.kkeisuke.dev
 
 # build app
 RUN npm install && \
