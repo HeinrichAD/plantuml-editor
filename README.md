@@ -31,6 +31,15 @@ If this is not possible without merge conflicts, an appropriate pull request is 
 #### Additional Features
 
 - dockerized on [Docker Hub](https://hub.docker.com/r/heinrichad/plantuml-editor)
+- add relative path (URL) support \[[PR#1](https://github.com/HeinrichAD/plantuml-editor/pull/1)\]
+- update URLs to use https \[[PR#2](https://github.com/HeinrichAD/plantuml-editor/pull/2)\]
+- refactor environment variables \[[PR#3](https://github.com/HeinrichAD/plantuml-editor/pull/3)\]
+- add further diagram support \[[PR#4](https://github.com/HeinrichAD/plantuml-editor/pull/4)\]
+  * [json](https://plantuml.com/json)
+  * [latex](https://plantuml.com/ascii-math)
+  * [math](https://plantuml.com/ascii-math)
+  * [salt](https://plantuml.com/salt)
+  * [yaml](https://plantuml.com/yaml)
 
 ## Features
 
@@ -75,9 +84,8 @@ npm run test:e2e
 # build with docker
 docker build \
        -t plantuml-editor \
-       --env VUE_APP_URL=http://localhost:8080/ \
-       --env VUE_APP_SERVER=http://localhost:4000/ \
-       --env VUE_APP_CDN=http://localhost:4000/ \
+       --env VUE_APP_URL=http://localhost:8080 \
+       --env VUE_APP_CDN=http://localhost:4000 \
        .
 
 # run plantuml-editor server with docker
@@ -107,6 +115,8 @@ docker run -d -p 4000:8000 yuzutech/kroki
 
 > **Notice:** Kroki uses for PlantUML the relative path `plantuml`.
 > `VUE_APP_CDN` in `.env.development` would in this case be for example: `VUE_APP_CDN="http://localhost:4000/plantuml"`
+
+> **Notice:** Kroki does not support `@startlatex` and `@startmath`.
 
 ## Other
 
