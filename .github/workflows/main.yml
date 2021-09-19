@@ -1,0 +1,95 @@
+name: build, test, deploy
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+
+env:
+  REGISTRY: docker.io
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - name: Install dependencies
+        run: npm install
+      - name: Install flow-typed
+        run: npm run flow-typed
+      - name: Build application
+        run: npm run build
+      - name: Run unit tests
+        run: npm run test:unit
+      #- name: Run e2e tests
+      #  run: npm run test:e2e
+      #- name: Save static web application
+      #  uses: actions/download-artifact@master
+      #  with:
+      #    name: dist
+      #    path: dist
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        # https://github.com/actions/checkout
+        uses: actions/checkout@v2
+      - name: String manipulation
+        id: string
+        # if pull request branch variable will be "pr-<id>"
+        run: |
+          BRANCH=${GITHUB_REF#refs/*/}
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then BRANCH=pr-${BRANCH%%/*}; fi
+          echo ::set-output name=BRANCH::${BRANCH}
+          echo ::set-output name=ACTOR::${GITHUB_ACTOR,,}
+          echo ::set-output name=IMAGE::${GITHUB_REPOSITORY,,}
+          echo ::set-output name=SHA::${GITHUB_SHA:0:7}
+      - name: Manipulated strings
+        run: |
+          echo "steps.string.outputs.BRANCH = '${{ steps.string.outputs.BRANCH }}'"
+          echo "steps.string.outputs.ACTOR  = '${{ steps.string.outputs.ACTOR }}'"
+          echo "steps.string.outputs.IMAGE  = '${{ steps.string.outputs.IMAGE }}'"
+          echo "steps.string.outputs.SHA    = '${{ steps.string.outputs.SHA }}'"
+      - name: Log into registry ${{ env.REGISTRY }}
+        # https://github.com/docker/login-action
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ steps.string.outputs.ACTOR }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Extract Docker metadata (tags, labels)
+        id: meta
+        # https://github.com/docker/metadata-action
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ steps.string.outputs.IMAGE }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.string.outputs.BRANCH }}-${{ steps.string.outputs.SHA }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
+            type=raw,value=${{ steps.string.outputs.BRANCH }}-${{ steps.string.outputs.SHA }}
+          flavor: |
+            latest=${{ steps.string.outputs.BRANCH == 'master' }}
+      - name: Build and push Docker image
+        # https://github.com/docker/build-push-action
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
