@@ -7,7 +7,7 @@
 ![PlantUML Editor](public/static/capture1_20170809.png)
 
 ![workflow status](https://github.com/HeinrichAD/plantuml-editor/actions/workflows/main.yml/badge.svg)
-![docker pulls](https://img.shields.io/docker/pulls/heinrichad/plantuml-editor.svg)
+[![docker pulls](https://img.shields.io/docker/pulls/heinrichad/plantuml-editor.svg)](https://hub.docker.com/r/heinrichad/plantuml-editor)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0e9c5e9a-b38a-483f-887d-18e4927af717/deploy-status)](https://app.netlify.com/sites/plantuml-editor/deploys)
 
 ## About this Fork
