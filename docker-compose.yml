@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   plantuml-editor:
     #image: heinrichad/plantuml-editor:master
@@ -14,3 +14,12 @@ services:
       #- TZ=...
     ports:
       - 8080:80
+  plantuml-server:
+    image: plantuml/plantuml-server
+    container_name: "plantuml-server"
+    environment:
+      - PLANTUML_LIMIT_SIZE=16384
+      - PLANTUML_STATS=on
+      - ALLOW_PLANTUML_INCLUDE=true
+    ports:
+      - 4000:8080
