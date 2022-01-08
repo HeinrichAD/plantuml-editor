@@ -82,14 +82,14 @@ npm run test:e2e
 
 ```bash
 # build with docker
-docker build \
-       -t plantuml-editor \
-       --env VUE_APP_URL=http://localhost:8080 \
-       --env VUE_APP_CDN=http://localhost:4000 \
-       .
+docker build -t plantuml-editor .
 
 # run plantuml-editor server with docker
-docker run -d -p 8080:80 --name plantuml-editor plantuml-editor
+docker run -d -p 8080:80 \
+       --name plantuml-editor \
+       --env VUE_APP_URL=http://localhost:8080 \
+       --env VUE_APP_CDN=http://localhost:4000 \
+       plantuml-editor
 ```
 
 ### Docker Compose
