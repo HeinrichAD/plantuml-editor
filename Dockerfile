@@ -1,4 +1,4 @@
-FROM node:12 AS builder
+FROM node:16 AS builder
 
 # fetch sources
 COPY . /usr/app
