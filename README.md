@@ -1,5 +1,13 @@
 # PlantUML Editor
 
+---
+> PlantUML Version 2 is available. It also comes with docker support.
+> Hence, this repository will not be maintained anymore.
+> 
+> https://github.com/kkeisuke/plantuml-editor2  
+> https://hub.docker.com/r/plantuml/plantuml-server
+---
+
 > A Vue.js, Vuex project
 
 ![PlantUML Editor Icon](public/static/favicon-60.png)　PlantUML online demo client
